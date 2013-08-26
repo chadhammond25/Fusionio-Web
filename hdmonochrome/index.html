@@ -1,0 +1,433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="generator" content=
+        "HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org" />
+        <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        
+        <title>PXE-Boot User Guide</title>
+    </head>
+    
+    <body>
+        <div id="page">            
+            <div class="topNaviagationLink">
+                <a href="http://10.40.2.15/ganglia" target="_blank">Ganglia</a>
+            </div>
+            
+            <div class="topNaviagationLink">
+                <a href="http://10.40.2.15/munin" target="_blank">Munin</a>
+            </div>
+            
+            <div class="topNaviagationLink">
+                <a href="http://10.40.2.15/labInfo" target="_blank">Lab Data</a>
+            </div>
+            
+            <div class="topNaviagationLink">
+                <a href="http://10.40.2.15/downloads" target="_blank">Downloads</a>
+            </div>
+            
+            <div class="topNaviagationLink">
+                <a href="http://10.40.2.15/yum/centos" target="_blank">Local Yum
+                    Repo</a>
+            </div>
+        </div>
+        
+        <div id="mainPicture">
+            <a href="http://10.40.2.15/yum/centos" target="_blank"></a>
+            
+            <div class="picture">
+                <div id="headerTitle">
+                    Fusion-io
+                </div>
+                
+                <div id="headerSubtext">
+                    PXE-Boot User Guide
+                </div>
+            </div>
+        </div>
+        
+        <div class="contentBox">
+            <div class="innerBox">
+                <h1>PXE-Boot:</h1>
+                
+                <div class="contentText">
+                    <p>With the PXE-Boot server, you can install a new OS over the network. To do so,
+                    either select "Boot from Network" (or similar) at your servers boot menu. If you
+                    want, you can just change the boot order in the boot menu of your server so that
+                    network boot is set to the first option, then you won't have to do this again
+                    next time.</p><br />
+                    
+                    <p>Once the network agent has booted, A PXE-Boot menu will be displayed listing
+                    all the available OS installations.</p><br />
+                    
+                    <p>*Note that the first option is "Boot from local drive" select this if you
+                    reached the PXE-Boot menu by accident, or if you changed your mind, and the
+                    system will boot normally. If no selection is made after 30 seconds, the system
+                    will boot from local drive automatically.</p><br />
+                    
+                    <p>Once you make your selection, the system will begin installing the OS of your
+                    choice. You don't need to do anything else, a kickstart file will guide the
+                    installation to completion.</p><br />
+                    
+                    <p>Grab a cup of coffee, come back in 7-15 minutes (depending on your selection
+                    and the quantity of associated packages) and when you get back, the system will
+                    have installed the OS, rebooted itself, installed / attached ioDrives, and set
+                    the typical (fusion-io) root user/password credentials.</p><br />
+                    
+                    <h3>** Note: You will notice the system seems to "hang" on the CentOS progress
+                        bar during the first boot. This is normal, and part of the ioDrive install (the
+                        script is running in the background). Give it a few minutes, (when testing, this
+                        took about 5 1/2 minutes to complete) then the login screen will appear as usual.
+                        This only happens on the first boot after installing the OS.</h3><br />
+                    
+                    <div id="wrapper" style="width:100%; text-align:center"><img src=
+                        "centosScreen.png" alt="centos boot progress" width="600" height="300" /></div>
+                </div>
+                
+                <h1>Available OS's':</h1>
+                
+                <div class="contentText">
+                    <h3>CentOS:</h3>
+                    
+                    <p>Versions 6.2/6.3/6.4 are available for auto install with all programs listed
+                    below in a "Basic server" configuration. I have all other configurations
+                    available (web-server, virtual-host, etc) if you want them, but temporarily
+                    removed them from the PXE-boot menu to reduce clutter. Manual installation
+                    optiona are also available.</p><br />
+                    
+                    <p>The "Basic server" configuration packages are listed below.</p><br />
+                    
+                    <h2>Want an OS added? No problem, just send me an <a href=
+                        "mailto:chammond@fusionio.com?subject=OS%20request">email</a> and i'll look into
+                        it.</h2>
+                </div>
+                
+                <h1>Kickstart Files:</h1>
+                
+                <div class="contentText">
+                    <p>If you want to configure your own kickstart file for custom settings on your
+                    installs:</p><br />
+                    
+                    <p>Navigate to /mnt/fioa/fusion/nfs/PXE-boot/images/ (either on your system or
+                    the PXE-boot server, if you have the NFS mounted)</p><br />
+                    
+                    <p>From there, you can navigate to the kickstart file directory by
+                    OS/Distribution, for example, if you installed CentOS 6.2, your ks files are
+                    located in centos/6.2/ks/ and have a ".cfg" extension, such as
+                    "basic_server_ks.cfg"</p><br />
+                    
+                    <p>A good list of available ks options can be found <a href=
+                        "http://fedoraproject.org/wiki/Anaconda/Kickstart">here</a></p><br />
+                    
+                    <h3>****NOTE: If you make your own ks file, please include the %post section from
+                        the existing ks files, these are required to track the status of lab equipment
+                        easily.</h3>
+                </div>
+                
+                <h1>Auto-Installed Programs:</h1>
+                
+                <div class="contentText">
+                    <p>When you install an OS from PXE-Boot, there are several programs that are
+                    installed / run during the post install process, these programs are:</p><br />
+                    
+                    <h3>NfsMount.jar -</h3>
+                    
+                    <p>There is a Network File System on the PXE-Boot server. This is used for some
+                    of the auto install programs listed below. This needs to be mounted in order for
+                    everything else to work properly.</p><br />
+                    
+                    <p>There is a public folder at <strong>10.40.2.15:/mnt/fioa/fusion/nfs/public</strong> that anyone can use for
+                    easy file transfer or if you want to access something across multiple
+                    servers.</p><br />
+                    
+                    <h3>LabInfoSetup.jar -</h3>
+                    
+                    <p>This program adds the LabInfoLog.jar file to crontab and sets it to run
+                    periodically in the background.</p><br />
+                    
+                    <h3>LabInfoLog.jar -</h3>
+                    
+                    <p>This program runs itself periodically in the background via crontab and grabs
+                    data from your server such as server make/model, installed IoDrives, IP address,
+                    and OS. You can view all of this info for all servers running the program at
+                    <a href="http://10.40.2.15/labInfo">10.40.2.15/labInfo</a></p><br />
+                    
+                    <h3>IoDriveInstaller.jar -</h3>
+                    
+                    <p>Auto installs any IoDrives on the server. Compiles the binaries from source so
+                    you always get the correct kernel version. Also updates firmware to the latest
+                    available.</p><br />
+                    
+                    <h3>GangliaInstaller.jar -</h3>
+                    
+                    <p>Installs Ganglia performance monitoring program for testing. Results are
+                    available at <a href="http://10.40.2.15/ganglia/">http://10.40.2.15/ganglia/</a>
+                    for all servers running the program.</p><br />
+                    
+                    <h3>MuninInstaller.jar -</h3>
+                    
+                    <p>Installs Munin performance monitoring program for testing. Results are
+                    available at <a href="http://10.40.2.15/munin/">http://10.40.2.15/munin/</a> for
+                    all servers running the program, listed by IP.</p><br />
+                    
+                    <h3>LocalYum.jar -</h3>
+                    
+                    <p>One problem I kept running into with auto installing features during the
+                    PXE-boot process was authenticating credentials to get past the firewall in order
+                    to allow YUM installs. In order to get around this, and avoid prompting the user
+                    (or hard coding) a user ID and password, I created a local YUM repository on the
+                    PXE-boot server. I also included the EPEL and REMI repositories.</p><br />
+                    
+                    <p>This program sets up the local repository for use. It places all neccesary
+                    keys and repo files in their associated directories. Since the repository is
+                    local, and stored on an ioDrive, the downloads are faster than most available
+                    mirrors as well.</p><br />
+                </div>
+                
+                <h1>Under Construction..</h1>
+                
+                <div class="contentText">                    
+                    <h3>ESXi 5.1 -</h3>
+                    
+                    <p>Something will be available for this soon.</p><br />
+                    
+                    <h2>More OS Versions -</h2>
+                    
+                    <p>As I mentioned above, there are more installation configurations available for
+                    CentOS. Below is a list of the installed packages in each configuration, any of
+                    which can be added to the PXE-boot menu in a few minutes if you want them, just
+                    let me know.</p><br />
+                    
+                    <ul>
+                        <li><strong>Desktop:</strong> base, basic-desktop, core, debugging,
+                            desktop-debugging, desktop-platform, directory-client, fonts, general-desktop,
+                            graphical-admin-tools, input-methods, internet-applications, internet-browser,
+                            java-platform, legacy-x, network-file-system-client, office-suite,
+                            print-client, remote-desktop-clients, server-platform, x11</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Minimal Desktop:</strong> base, basic-desktop, core, debugging,
+                            desktop-debugging, desktop-platform, directory-client, fonts, input-methods,
+                            internet-browser, java-platform, legacy-x, network-file-system-client,
+                            print-client, remote-desktop-clients, server-platform, x11</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Basic Server:</strong> base, console-internet, core, debugging,
+                            directory-client, hardware-monitoring, java-platform, large-systems,
+                            network-file-system-client, performance, perl-runtime, server-platform</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Database Server:</strong> base, console-internet, core, debugging,
+                            directory-client, hardware-monitoring, java-platform, large-systems,
+                            network-file-system-client, performance, perl-runtime, server-platform,
+                            mysql-client, mysql, postgresql-client, postgresql, system-admin-tools</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Web Server:</strong> base, console-internet, core, debugging,
+                            directory-client, java-platform, mysql-client, network-file-system-client,
+                            performance, perl-runtime, php, postgresql-client, server-platform, turbogears,
+                            web-server, web-servlet</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Virtual Host:</strong> base, console-internet, core, debugging,
+                            directory-client, hardware-monitoring, java-platform, large-systems,
+                            network-file-system-client, performance, perl-runtime, server-platform,
+                            virtualization, virtualization-client, virtualization-platform</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                        
+                        <li><strong>Software Development Workstation:</strong> additional-devel, base,
+                            basic-desktop, core, debugging, desktop-debugging, desktop-platform,
+                            desktop-platform-devel, development, directory-client, eclipse, emacs, fonts,
+                            general-desktop, graphical-admin-tools, graphics, input-methods,
+                            internet-browser, java-platform, legacy-x, network-file-system-client,
+                            performance, perl-runtime, print-client, remote-desktop-clients,
+                            server-platform, server-platform-devel, technical-writing, tex, virtualization,
+                            virtualization-client, virtualization-platform, x11</li>
+                        
+                        <li style="list-style: none"><br /></li>
+                    </ul>
+                    
+                    <p>I plan to add <strong>RHEL</strong> to the bootable OS's. If anyone wants
+                    other versions or Os's just let me know and I can add those in too. I'd also like
+                    some feedback on the installation types that most often (or never) used - i.e.
+                    web server, minimal desktop, virtual host, etc, so I can clean up the menu and
+                    list only what will get used.</p><br />
+                    
+                    <h3>More Performance Testing Software -</h3>
+                </div>
+                
+                <div class="contentText">
+                    <p>I plan to put several other performance testing suites online, similar to
+                    Ganglia, so we can compare results from differnet sources and see which one(s)
+                    give the best visualization/overall data. When I do, i'll make an install script
+                    for them too so it will be simple to spread out for testing on multiple servers
+                    with ioDrives.</p>
+                </div>
+                
+                <h1>Installable Programs:</h1>
+                
+                <div class="contentText">
+                    <p>All of the programs listed above are (or will soon be) available at <a href=
+                        "http://10.40.2.15/downloads/">http://10.40.2.15/downloads/</a> for those of you
+                    who wish to manually install your OS, or if you have a server running without the
+                    programs installed already.</p><br />
+                    
+                    <p>There are two options for installing any of the files available in the
+                    downloads folder, individually, or with the MultiPkgInstaller.jar program. For
+                    all programs, append "-v" to the end of the command for verbose output.</p><br />
+                    
+                    <h3>Individually:</h3>
+                    
+                    <p>wget http://10.40.2.15/downloads/PROGRAM_NAME</p>
+                    
+                    <p>java -jar PROGRAM_NAME.jar</p><br />
+                    
+                    <h3>Using the MultiPkgInstaller.jar program:</h3>
+                    
+                    <p>First, grab a copy of the program with:</p>
+                    
+                    <p>wget http://10.40.2.15/downloads/MultiPkgInstaller_1.1.jar</p><br />
+                    
+                    <p>Once you have it, there are several options you can use to install various
+                    combinations of the programs listed above. The following is a list of the
+                    currently available combinations, and the associated option number.</p><br />
+                    
+                    <p>To run the program:</p>
+                    
+                    <p>java -jar MultiPkgInstaller_1.1.jar [option number] ["-v" for
+                    verbose]</p><br />
+                    
+                    <h3>OPTION 0:</h3>
+                    
+                    <ul>
+                        <li>MNfsMounter.jar</li>
+                        
+                        <li>LocalYum.jar</li>
+                        
+                        <li>LabInfoSetup.jar</li>
+                        
+                        <li>MuninInstaller.jar</li>
+                        
+                        <li>GangliaInstaller.jar</li>
+                        
+                        <li>IoDriveInstaller.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 1:</h3>
+                    
+                    <ul>
+                        <li>MNfsMounter.jar</li>
+                        
+                        <li>LocalYum.jar</li>
+                        
+                        <li>MuninInstaller.jar</li>
+                        
+                        <li>GangliaInstaller.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 2:</h3>
+                    
+                    <ul>
+                        <li>MNfsMounter.jar</li>
+                        
+                        <li>LocalYum.jar</li>
+                        
+                        <li>LabInfoSetup.jar</li>
+                        
+                        <li>MuninInstaller.jar</li>
+                        
+                        <li>GangliaInstaller.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 3:</h3>
+                    
+                    <ul>
+                        <li>MNfsMounter.jar</li>
+                        
+                        <li>LocalYum.jar</li>
+                        
+                        <li>LabInfoSetup.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 4:</h3>
+                    
+                    <ul>
+                        <li>MNfsMounter.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 5:</h3>
+                    
+                    <ul>
+                        <li>LocalYum.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 6:</h3>
+                    
+                    <ul>
+                        <li>LabInfoSetup.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 7:</h3>
+                    
+                    <ul>
+                        <li>MuninInstaller.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 8:</h3>
+                    
+                    <ul>
+                        <li>GangliaInstaller.jar</li>
+                    </ul>
+                    
+                    <h3>OPTION 9:</h3>
+                    
+                    <ul>
+                        <li>IoDriveInstaller.jar</li>
+                    </ul>
+                </div>
+                
+                <h1>Local Yum Repository:</h1>
+                
+                <div class="contentText">
+                    <p>There is a ton of downloadable content available for use with either WGET or
+                    YUM available at <a href=
+                        "http://10.40.2.15/yum/centos/">http://10.40.2.15/yum/centos/</a>. The main
+                    location wth the EPEL, REMI and all folders used in "yum install" commands are
+                    found in folder 6/. If you want anything added to the repository, let me know and
+                    i'll add it.</p>
+                    
+                    <p>I'm sure you all know this, but just in case, you can use WGET for anything
+                    listed on the downloads page, or anywhere in the local repository as long as you
+                    are on the network.</p>
+                </div>
+                
+                <h1>Comments... Suggestions...</h1>
+                
+                <div class="contentText">
+                    <p>If you have any questions, comments or suggestions on the features listed, or
+                    if there is a particular OS/feature you would like to see added, <a href=
+                        "mailto:chammond@fusionio.com?subject=Comments...%20Suggestions...">Email Me</a>
+                    at chammond@fusionio.com and i'll look into it.</p>
+                </div>
+                
+                <h1>Recent Updates:</h1>
+                
+                <div class="contentText">
+                    <p>None today, check again later!</p>
+                </div>
+                
+                <h4><a href="http://www.aszx.net">web development</a> by <a href=
+                    "http://www.bryantsmith.com">bryant smith</a></h4>
+            </div>
+        </div>
+    </body>
+</html>
